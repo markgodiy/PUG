@@ -10,9 +10,6 @@ Back in Aug 8, 2002, Jeffrey Snover published the ["Monad Manifesto"](https://ww
 
 Jeffrey Snover is credited as the inventor of PowerShell, but he himself claims to have only laid the foundation, then "a series of rockstars added their awesomeness to the project". 
 
-Video explaining command composition model for PowerShell vs Linux. 
-Starting @ 13:00 https://youtu.be/j0EX5R2nnRI?t=780
-
 ## Interactive PowerShell Introduction Training
 - Microsoft account required (DOD CAC does not work, I tried)
 
