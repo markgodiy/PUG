@@ -1,21 +1,18 @@
 # PowerShell User Group
 
-## Monad Manifesto
-
-Back in Aug 8, 2002, Jeffrey Snover published the ["Monad Manifesto"](https://www.jsnover.com/Docs/MonadManifesto.pdf), which articulated the long term vision and started the development effort which became PowerShell. 
-
-Jeffrey is credited as the inventor of PowerShell, but he himself claims to have only laid the foundation, then "a series of rockstar engineers added their awesomeness to the project". 
-
-Here's a 
-
-
 ## PowerShell 
 
 PowerShell is an object-based distributed automation engine, scripting language, and command line shell.
 
+## Monad Manifesto
+
+Back in Aug 8, 2002, Jeffrey Snover published the ["Monad Manifesto"](https://www.jsnover.com/Docs/MonadManifesto.pdf), which articulated the long term vision and started the development effort which became PowerShell. 
+
+Jeffrey Snover is credited as the inventor of PowerShell, but he himself claims to have only laid the foundation, then "a series of rockstar engineers added their awesomeness to the project". 
+
 ## Getting Started with Microsoft PowerShell
 
-9-part video series co-hosted by the Jeffrey Snover himself 
+9-part video series co-hosted by Jeffrey Snover
 
 https://learn.microsoft.com/en-us/shows/getting-started-with-microsoft-powershell/
 
