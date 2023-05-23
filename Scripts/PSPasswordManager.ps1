@@ -173,8 +173,10 @@ $dataGridView.Add_CellDoubleClick({
 })
 
 
-# Display the form
+# Populate grid 
 Load_Secrets
+
+# Display the form
 $form.ShowDialog()
 
 }
