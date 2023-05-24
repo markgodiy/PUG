@@ -96,7 +96,7 @@ Function Add_NewSecret($systemName = $txtSystemName.Text) {
         StatusMsg("Added username and password to secret file...")
         $txtSystemName.Text = $null
     } else {
-        Write-Host "SystemName is required."
+        StatusMsg("SystemName is required...")
     }
 
     Load_Secrets
@@ -116,7 +116,6 @@ function DecryptSecret($password) {
     [System.Runtime.InteropServices.Marshal]::ZeroFreeBSTR($bstr)
     $plaintextPassword | Set-Clipboard
     StatusMsg("Password copied to clipboard.")
-
 }
 
 Function Delete_Secret {
@@ -128,7 +127,11 @@ Function Delete_Secret {
         $systemName = $selectedRow.Cells[0].Value
 
         # Show confirmation dialog
-        $confirmResult = [System.Windows.Forms.MessageBox]::Show("Are you sure you want to delete the secret for '$systemName'?", "Confirmation", [System.Windows.Forms.MessageBoxButtons]::YesNo, [System.Windows.Forms.MessageBoxIcon]::Warning)
+        $confirmResult = [System.Windows.Forms.MessageBox]::Show("Are you sure you want to delete the secret for '$systemName'?", 
+            "Confirmation", 
+            [System.Windows.Forms.MessageBoxButtons]::YesNo, 
+            [System.Windows.Forms.MessageBoxIcon]::Warning
+            )
 
         if ($confirmResult -eq "Yes") {
             $existingData = Get-Content -Raw -Path $script:SecretFile | ConvertFrom-Json
