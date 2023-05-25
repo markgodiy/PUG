@@ -58,6 +58,12 @@ function PSPasswordManager {
     $btnDelete.Location = New-Object System.Drawing.Point(240, 70)
     $btnDelete.Size = New-Object System.Drawing.Size(100, 30)
     $btnDelete.Text = "Delete"
+
+    $btnEdit = New-Object System.Windows.Forms.Button
+$btnEdit.Location = New-Object System.Drawing.Point(350, 70)
+$btnEdit.Size = New-Object System.Drawing.Size(100, 30)
+$btnEdit.Text = "Edit"
+
     
     # Add Datagridview
     $dataGridView = New-Object System.Windows.Forms.DataGridView
@@ -74,6 +80,8 @@ function PSPasswordManager {
     
     # Add all controls to the form, otherwise it will be blank
     $form.Controls.AddRange(@($lblSystemName, $txtSystemName, $lblIPAddress, $txtIPAddress, $btnAdd, $btnRefresh,$btnDelete, $dataGridView,$statusBar))
+    $form.Controls.AddRange(@($lblSystemName, $txtSystemName, $lblIPAddress, $txtIPAddress, $btnAdd, $btnRefresh, $btnDelete, $btnEdit, $dataGridView, $statusBar))
+
     
     #############################
     #### Functions Region 
@@ -98,7 +106,7 @@ function PSPasswordManager {
     Function Add_NewSecret($systemName = $txtSystemName.Text) {
         if ($systemName) {
             $credentials = Get-Credential
-            $secretObject = @{
+            $secretObject = [ordered]@{
                 "SystemName" = $systemName
                 "IPAddress" = $txtIPAddress.Text
                 "UserName"   = $credentials.UserName
@@ -163,6 +171,79 @@ function PSPasswordManager {
             }
         }
     }
+
+    Function Edit_Secret {
+        if ($dataGridView.SelectedCells.Count -gt 0) {
+            $selectedCell = $dataGridView.SelectedCells[0]
+            $selectedRow = $dataGridView.Rows[$selectedCell.RowIndex]
+    
+            # Get the existing values of the selected row
+            $systemName = $selectedRow.Cells[0].Value
+            $ipAddress = $selectedRow.Cells[1].Value
+    
+            # Show a dialog to allow editing of the values
+            $editForm = New-Object System.Windows.Forms.Form
+            $editForm.Text = "Edit Secret"
+            $editForm.Size = New-Object System.Drawing.Size(300, 150)
+            $editForm.StartPosition = "CenterScreen"
+    
+            $lblEditSystemName = New-Object System.Windows.Forms.Label
+            $lblEditSystemName.Location = New-Object System.Drawing.Point(20, 20)
+            $lblEditSystemName.Text = "System Name:"
+            $editForm.Controls.Add($lblEditSystemName)
+    
+            $txtEditSystemName = New-Object System.Windows.Forms.TextBox
+            $txtEditSystemName.Location = New-Object System.Drawing.Point(120, 20)
+            $txtEditSystemName.Size = New-Object System.Drawing.Size(160, 20)
+            $txtEditSystemName.Text = $systemName
+            $editForm.Controls.Add($txtEditSystemName)
+    
+            $lblEditIPAddress = New-Object System.Windows.Forms.Label
+            $lblEditIPAddress.Location = New-Object System.Drawing.Point(20, 50)
+            $lblEditIPAddress.Text = "IP Address:"
+            $editForm.Controls.Add($lblEditIPAddress)
+    
+            $txtEditIPAddress = New-Object System.Windows.Forms.TextBox
+            $txtEditIPAddress.Location = New-Object System.Drawing.Point(120, 50)
+            $txtEditIPAddress.Size = New-Object System.Drawing.Size(160, 20)
+            $txtEditIPAddress.Text = $ipAddress
+            $editForm.Controls.Add($txtEditIPAddress)
+    
+            
+            $lblEditUsername = New-Object System.Windows.Forms.Label
+            $lblEditUsername.Location = New-Object System.Drawing.Point(20, 80)
+            $lblEditUsername.Text = "Username:"
+            $editForm.Controls.Add($lblEditUsername)
+
+            $txtEditUsername = New-Object System.Windows.Forms.TextBox
+            $txtEditUsername.Location = New-Object System.Drawing.Point(120, 80)
+            $txtEditUsername.Size = New-Object System.Drawing.Size(160, 20)
+            $txtEditUsername.Text = $selectedRow.Cells[2].Value
+            $editForm.Controls.Add($txtEditUsername)
+
+            $lblEditPassword = New-Object System.Windows.Forms.Label
+            $lblEditPassword.Location = New-Object System.Drawing.Point(20, 110)
+            $lblEditPassword.Text = "Password:"
+            $editForm.Controls.Add($lblEditPassword)
+
+            $txtEditPassword = New-Object System.Windows.Forms.TextBox
+            $txtEditPassword.Location = New-Object System.Drawing.Point(120, 110)
+            $txtEditPassword.Size = New-Object System.Drawing.Size(160, 20)
+            $txtEditPassword.Text = $selectedRow.Cells[3].Value
+            $editForm.Controls.Add($txtEditPassword)
+
+            
+            $btnSave = New-Object System.Windows.Forms.Button
+            $btnSave.Location = New-Object System.Drawing.Point(120, 80)
+            $btnSave.Size = New-Object System.Drawing.Size(75, 23)
+            $btnSave.Text = "Save"
+
+            $editForm.Controls.Add($btnSave)
+    
+            $editForm.ShowDialog()
+        }
+    }
+    
     
     function StatusMsg($msg){
         $statusLabel.Text = $msg
@@ -179,6 +260,9 @@ function PSPasswordManager {
     $btnRefresh.Add_Click({Load_Secrets})
     
     $btnDelete.Add_Click({ Delete_Secret })
+
+    $btnEdit.Add_Click({ Edit_Secret })
+
     
     # Add double-click event for copying password to clipboard
     $dataGridView.Add_CellDoubleClick({
