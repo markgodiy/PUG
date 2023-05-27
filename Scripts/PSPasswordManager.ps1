@@ -177,6 +177,9 @@ function PSPasswordManager {
 
     Function Edit_Secret {
 
+        Add-Type -AssemblyName System.Windows.Forms
+        Add-Type -AssemblyName System.Drawing
+
         if ($dataGridView.SelectedCells.Count -gt 0) {
             $selectedCell = $dataGridView.SelectedCells[0]
             $selectedRow = $dataGridView.Rows[$selectedCell.RowIndex]
@@ -203,8 +206,7 @@ function PSPasswordManager {
                     [string]$Text = ""
                 )
 
-                Add-Type -AssemblyName System.Windows.Forms
-                Add-Type -AssemblyName System.Drawing
+
             
                 # Create the form control object based on the control type
                 $control = New-Object "System.Windows.Forms.$ControlType"
