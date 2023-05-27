@@ -248,7 +248,10 @@ Purpose: Simple Password Manager. Allows creating,reading,updating,and deleting 
             
             Add-DynamicFormControl -Form $editForm -ControlType "Label" -ControlName "lblNewPassword" -Left 20 -Top 140 -Text "NewPassword:"
 
-            $txtNewPassword = Add-DynamicFormControl -Form $editForm -ControlType "Textbox" -ControlName "txtNewPassword" -Left 120 -Top 140 -Width 150 -Text ""
+            $txtNewPassword = New-Object System.Windows.Forms.TextBox
+            $txtNewPassword.Location = New-Object System.Drawing.Point(120, 140)
+            $txtNewPassword.Size = New-Object System.Drawing.Size(150, 20)
+            $txtNewPassword.Text = ""
 
             $btnGeneratePassword = New-Object System.Windows.Forms.Button
             $btnGeneratePassword.Location = New-Object System.Drawing.Point(30, 170)
@@ -260,7 +263,7 @@ Purpose: Simple Password Manager. Allows creating,reading,updating,and deleting 
             $btnSave.Size = New-Object System.Drawing.Size(100, 30)
             $btnSave.Text = "Save"
 
-            $editForm.Controls.AddRange(@($btnSave, $btnGeneratePassword))
+            $editForm.Controls.AddRange(@($txtNewPassword, $btnSave, $btnGeneratePassword))
             
             $btnGeneratePassword.Add_Click({ 
                     $txtNewPassword.Text = "$(GeneratePassword -Length 16)"
