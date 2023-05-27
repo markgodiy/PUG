@@ -177,8 +177,7 @@ function PSPasswordManager {
 
     Function Edit_Secret {
 
-        Add-Type -AssemblyName System.Windows.Forms
-        Add-Type -AssemblyName System.Drawing
+
 
         if ($dataGridView.SelectedCells.Count -gt 0) {
             $selectedCell = $dataGridView.SelectedCells[0]
@@ -195,6 +194,10 @@ function PSPasswordManager {
             $editForm.StartPosition = "CenterScreen"
    
             function Add-DynamicFormControl {
+
+                Add-Type -AssemblyName System.Windows.Forms
+                Add-Type -AssemblyName System.Drawing
+                
                 param(
                     [Parameter(Mandatory = $true)][System.Windows.Forms.Form]$Form,
                     [Parameter(Mandatory = $true)][string]$ControlType,
@@ -205,8 +208,6 @@ function PSPasswordManager {
                     [int]$Height = 20,
                     [string]$Text = ""
                 )
-
-
             
                 # Create the form control object based on the control type
                 $control = New-Object "System.Windows.Forms.$ControlType"
