@@ -227,7 +227,7 @@ function PSPasswordManager {
 
             Add-DynamicFormControl -Form $editForm -ControlType "Text" -ControlName "txtEditIPAddress" -Left 120 -Top 50 -Text "$ipAddress"
     
-          $lblEditUsername = New-Object System.Windows.Forms.Label
+              $lblEditUsername = New-Object System.Windows.Forms.Label
             $lblEditUsername.Location = New-Object System.Drawing.Point(20, 80)
             $lblEditUsername.Text = "Username:"
             $editForm.Controls.Add($lblEditUsername)
