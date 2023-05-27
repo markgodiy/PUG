@@ -222,8 +222,6 @@ function PSPasswordManager {
                 $Form.Tag = $Form.Tag + $value
             }
 
-
-
             Add-DynamicFormControl -Form $editForm -ControlType "Label" -ControlName "lblEditSystemName" -Left 20 -Top 20 -Text "System Name:"
 
             Add-DynamicFormControl -Form $editForm -ControlType "Text" -ControlName "txtEditSystemName" -Left 120 -Top 20 -Text "$systemName"
