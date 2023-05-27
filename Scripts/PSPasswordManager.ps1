@@ -5,14 +5,15 @@ Name: PsPasswordManager
 Purpose: Simple Password Manager. Allows creating,reading,updating,and deleting passwords.
 #>
 
-    #############################
-    #### Declare Script Variables
-    #############################
+#############################
+#### Declare Script Variables
+#############################
+
     $script:SecretFile = $(Join-Path $env:APPDATA "Secrets.json")
      
-    #############################
-    #### Create the main form and controls
-    #############################
+#############################
+#### Create the main form and controls
+#############################
     Add-Type -AssemblyName System.Windows.Forms
     Add-Type -AssemblyName System.Drawing
 
@@ -85,9 +86,9 @@ Purpose: Simple Password Manager. Allows creating,reading,updating,and deleting 
     # Add all controls to the form, otherwise form will be blank
     $form.Controls.AddRange(@($lblSystemName, $txtSystemName, $lblIPAddress, $txtIPAddress, $btnAdd, $btnRefresh, $btnDelete, $btnEdit, $dataGridView, $statusBar))
     
-    #############################
-    #### Functions Region 
-    #############################
+#############################
+#### Functions Region 
+#############################
 
     # Load existing input data from file
     function Load_Secrets {
@@ -278,9 +279,9 @@ Purpose: Simple Password Manager. Allows creating,reading,updating,and deleting 
         $statusLabel.Text = ""
     }
     
-    #############################
-    ### Form Events Region
-    #############################
+#############################
+### Form Events Region
+#############################
     
     $btnAdd.Add_Click({ Add_NewSecret($txtSystemName.Text) })
     
