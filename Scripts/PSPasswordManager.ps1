@@ -234,7 +234,7 @@ function PSPasswordManager {
             $editForm.Controls.Add($txtEditPassword)
             
             $btnSave = New-Object System.Windows.Forms.Button
-            $btnSave.Location = New-Object System.Drawing.Point(120, 190)
+            $btnSave.Location = New-Object System.Drawing.Point(120, 140)
             $btnSave.Size = New-Object System.Drawing.Size(75, 23)
             $btnSave.Text = "Save"
 
