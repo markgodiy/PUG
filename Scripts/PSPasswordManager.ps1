@@ -202,11 +202,12 @@ function PSPasswordManager {
                     [int]$Height = 20,
                     [string]$Text = ""
                 )
+
                 Add-Type -AssemblyName System.Windows.Forms
                 Add-Type -AssemblyName System.Drawing
 
                 # Create the form control object based on the control type
-                $control = New-Object "System.Windows.Forms.$ControlType"
+                $control = New-Object System.Windows.Forms.$ControlType
                 $control.Name = $ControlName
                 $control.Location = New-Object System.Drawing.Point($Left, $Top)
                 $control.Width = $Width
