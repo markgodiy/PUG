@@ -186,7 +186,7 @@ function PSPasswordManager {
             # Show a dialog to allow editing of the values
             $editForm = New-Object System.Windows.Forms.Form
             $editForm.Text = "Edit Secret"
-            $editForm.Size = New-Object System.Drawing.Size(300, 220)
+            $editForm.Size = New-Object System.Drawing.Size(320, 220)
             $editForm.StartPosition = "CenterScreen"
     
             $lblEditSystemName = New-Object System.Windows.Forms.Label
