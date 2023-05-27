@@ -15,6 +15,9 @@ Jeffrey Snover is credited as the inventor of PowerShell, but he himself claims 
 
 https://learn.microsoft.com/en-us/training/paths/powershell/?source=learn
 
+## about_Powershell
+https://learn.microsoft.com/en-us/powershell/module/microsoft.powershell.core/about/about_windows_powershell_5.1?view=powershell-5.1
+
 
 ## Getting Started with Microsoft PowerShell
 
