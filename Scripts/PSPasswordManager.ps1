@@ -260,7 +260,7 @@ Purpose: Simple Password Manager. Allows creating,reading,updating,and deleting 
             $btnSave.Size = New-Object System.Drawing.Size(100, 30)
             $btnSave.Text = "Save"
 
-            $editForm.Controls.AddRange(@($txtNewPassword, $btnSave, $btnGeneratePassword))
+            $editForm.Controls.AddRange(@($btnSave, $btnGeneratePassword))
             
             $btnGeneratePassword.Add_Click({ 
                     $txtNewPassword.Text = "$(GeneratePassword -Length 16)"
