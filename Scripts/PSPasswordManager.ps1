@@ -176,6 +176,7 @@ function PSPasswordManager {
     }
 
     Function Edit_Secret {
+
         if ($dataGridView.SelectedCells.Count -gt 0) {
             $selectedCell = $dataGridView.SelectedCells[0]
             $selectedRow = $dataGridView.Rows[$selectedCell.RowIndex]
@@ -220,26 +221,13 @@ function PSPasswordManager {
 
             Add-DynamicFormControl -Form $editForm -ControlType "Label" -ControlName "lblEditSystemName" -Left 20 -Top 20 -Text "System Name:"
 
-            Add-DynamicFormControl -Form $editForm -ControlType "Text" -ControlName "txtEditSystemName" -Left 120 -Top 20 -Text "System Name:"
+            Add-DynamicFormControl -Form $editForm -ControlType "Text" -ControlName "txtEditSystemName" -Left 120 -Top 20 -Text "$systemName"
     
-            $txtEditSystemName = New-Object System.Windows.Forms.TextBox
-            $txtEditSystemName.Location = New-Object System.Drawing.Point(120, 20)
-            $txtEditSystemName.Size = New-Object System.Drawing.Size(160, 20)
-            $txtEditSystemName.Text = $systemName
-            $editForm.Controls.Add($txtEditSystemName)
+            Add-DynamicFormControl -Form $editForm -ControlType "Text" -ControlName "lblEditIPAddress" -Left 20 -Top 50 -Text "IP Address:"
+
+            Add-DynamicFormControl -Form $editForm -ControlType "Text" -ControlName "txtEditIPAddress" -Left 120 -Top 50 -Text "$ipAddress"
     
-            $lblEditIPAddress = New-Object System.Windows.Forms.Label
-            $lblEditIPAddress.Location = New-Object System.Drawing.Point(20, 50)
-            $lblEditIPAddress.Text = "IP Address:"
-            $editForm.Controls.Add($lblEditIPAddress)
-    
-            $txtEditIPAddress = New-Object System.Windows.Forms.TextBox
-            $txtEditIPAddress.Location = New-Object System.Drawing.Point(120, 50)
-            $txtEditIPAddress.Size = New-Object System.Drawing.Size(160, 20)
-            $txtEditIPAddress.Text = $ipAddress
-            $editForm.Controls.Add($txtEditIPAddress)
-                
-            $lblEditUsername = New-Object System.Windows.Forms.Label
+          $lblEditUsername = New-Object System.Windows.Forms.Label
             $lblEditUsername.Location = New-Object System.Drawing.Point(20, 80)
             $lblEditUsername.Text = "Username:"
             $editForm.Controls.Add($lblEditUsername)
