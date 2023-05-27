@@ -210,8 +210,7 @@ function PSPasswordManager {
             $txtEditIPAddress.Size = New-Object System.Drawing.Size(160, 20)
             $txtEditIPAddress.Text = $ipAddress
             $editForm.Controls.Add($txtEditIPAddress)
-    
-            
+                
             $lblEditUsername = New-Object System.Windows.Forms.Label
             $lblEditUsername.Location = New-Object System.Drawing.Point(20, 80)
             $lblEditUsername.Text = "Username:"
@@ -233,10 +232,9 @@ function PSPasswordManager {
             $txtEditPassword.Size = New-Object System.Drawing.Size(160, 20)
             $txtEditPassword.Text = $selectedRow.Cells[3].Value
             $editForm.Controls.Add($txtEditPassword)
-
             
             $btnSave = New-Object System.Windows.Forms.Button
-            $btnSave.Location = New-Object System.Drawing.Point(120, 80)
+            $btnSave.Location = New-Object System.Drawing.Point(120, 190)
             $btnSave.Size = New-Object System.Drawing.Size(75, 23)
             $btnSave.Text = "Save"
 
