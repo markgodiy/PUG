@@ -1,5 +1,4 @@
-function PSPasswordManager {
-    
+function PsPasswordManager {
     #############################
     #### Declare Script Variables
     #############################
@@ -79,9 +78,7 @@ function PSPasswordManager {
     $dataGridView.Columns["EncryptedPassword"].Visible = $false # Set the "Actual Password" column to be hidden
     
     # Add all controls to the form, otherwise it will be blank
-    $form.Controls.AddRange(@($lblSystemName, $txtSystemName, $lblIPAddress, $txtIPAddress, $btnAdd, $btnRefresh, $btnDelete, $dataGridView, $statusBar))
     $form.Controls.AddRange(@($lblSystemName, $txtSystemName, $lblIPAddress, $txtIPAddress, $btnAdd, $btnRefresh, $btnDelete, $btnEdit, $dataGridView, $statusBar))
-
     
     #############################
     #### Functions Region 
@@ -102,12 +99,11 @@ function PSPasswordManager {
             }
         }
     }
-    
     Function Add_NewSecret($systemName = $txtSystemName.Text) {
         if ($systemName) {
             $credentials = Get-Credential
             $secretObject = [ordered]@{
-                "ID" = "$(Get-Date -Format "yymmddHHmm")$(Get-Random -Minimum 100 -maximum 999)"
+                "ID"         = "$((Get-Date).DayOfYear)$(Get-Random -Minimum 100 -maximum 999)"
                 "SystemName" = $systemName
                 "IPAddress"  = $txtIPAddress.Text
                 "UserName"   = $credentials.UserName
@@ -116,9 +112,9 @@ function PSPasswordManager {
             try {
                 Save_Secrets($secretObject)
                 Load_Secrets
-                StatusMsg("Added username and password to secret file...")
                 $txtSystemName.Text = $null
                 $txtIPAddress.Text = $null
+                StatusMsg("Added username and password to secret file...")
             } 
             catch {
                 StatusMsg("Unable to add new data to secrets ...")
@@ -137,24 +133,23 @@ function PSPasswordManager {
         $existingData | ConvertTo-Json | Out-File -FilePath $script:SecretFile -Encoding UTF8
     }
     
-    function DecryptSecret($password) {
+    function DecryptSecret($Password) {
 
         Try {
             $secureString = $password | ConvertTo-SecureString
             $bstr = [System.Runtime.InteropServices.Marshal]::SecureStringToBSTR($secureString)
             $plaintextPassword = [System.Runtime.InteropServices.Marshal]::PtrToStringAuto($bstr)
             [System.Runtime.InteropServices.Marshal]::ZeroFreeBSTR($bstr)
-            $plaintextPassword | Set-Clipboard
-            StatusMsg("Password copied to clipboard.")
         }
         catch {
             StatusMsg("Decryption Failed. $($Error[0].Exception)")
         }
-    
+
+        Return $plaintextPassword
+        
     }
     
     Function Delete_Secret {
-    
         if ($dataGridView.SelectedCells.Count -gt 0) {
             $selectedCell = $dataGridView.SelectedCells[0]
             $selectedRow = $dataGridView.Rows[$selectedCell.RowIndex]
@@ -162,7 +157,12 @@ function PSPasswordManager {
             $systemName = $selectedRow.Cells[0].Value
     
             # Show confirmation dialog
-            $confirmResult = [System.Windows.Forms.MessageBox]::Show("Are you sure you want to delete the secret for '$systemName'?", "Confirmation", [System.Windows.Forms.MessageBoxButtons]::YesNo, [System.Windows.Forms.MessageBoxIcon]::Warning)
+            $confirmResult = [System.Windows.Forms.MessageBox]::Show(
+                "Are you sure you want to delete the secret for '$systemName'?", 
+                "Confirmation",
+                [System.Windows.Forms.MessageBoxButtons]::YesNo, 
+                [System.Windows.Forms.MessageBoxIcon]::Warning
+            )
     
             if ($confirmResult -eq "Yes") {
                 $existingData = Get-Content -Raw -Path $script:SecretFile | ConvertFrom-Json
@@ -175,22 +175,21 @@ function PSPasswordManager {
         }
     }
 
+    function GeneratePassword {
+            param ([int]$Length)
+            $validCharacters = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!@#$%^&*()_+=-"
+            $genPassword = ""
+            $random = New-Object System.Random
+            while ($genPassword.Length -lt $Length) {$genPassword += $validCharacters[$random.Next(0, $validCharacters.Length)]}
+            return $genPassword
+        }
+
     Function Edit_Secret {
 
         if ($dataGridView.SelectedCells.Count -gt 0) {
             $selectedCell = $dataGridView.SelectedCells[0]
             $selectedRow = $dataGridView.Rows[$selectedCell.RowIndex]
     
-            # Get the existing values of the selected row
-            $systemName = $selectedRow.Cells[0].Value
-            $ipAddress = $selectedRow.Cells[1].Value
-
-            # Show a dialog to allow editing of the values
-            $editForm = New-Object System.Windows.Forms.Form
-            $editForm.Text = "Edit Secret"
-            $editForm.Size = New-Object System.Drawing.Size(320, 220)
-            $editForm.StartPosition = "CenterScreen"
-   
             function Add-DynamicFormControl {
                 param(
                     [Parameter(Mandatory = $true)][System.Windows.Forms.Form]$Form,
@@ -203,9 +202,6 @@ function PSPasswordManager {
                     [string]$Text = ""
                 )
 
-                Add-Type -AssemblyName System.Windows.Forms
-                Add-Type -AssemblyName System.Drawing
-
                 # Create the form control object based on the control type
                 $control = New-Object System.Windows.Forms.$ControlType
                 $control.Name = $ControlName
@@ -213,52 +209,60 @@ function PSPasswordManager {
                 $control.Width = $Width
                 $control.Height = $Height
                 $control.Text = $Text
-            
-                # Create a hashtable or custom object to hold the control's value
-                $value = @{ Name = $ControlName; Control = $control; Value = $null }
-            
+
                 # Add the control and its value to the form
                 $Form.Controls.Add($control)
-                $Form.Tag = $Form.Tag + $value
             }
 
-            Add-DynamicFormControl -Form $editForm -ControlType "Label" -ControlName "lblEditSystemName" -Left 20 -Top 20 -Text "System Name:"
+            # Get the existing values of the selected row
+            $systemName = $selectedRow.Cells[0].Value
+            $ipAddress = $selectedRow.Cells[1].Value
+            $username = $selectedRow.Cells[2].Value
+            $password = $selectedRow.Cells[4].Value
+            $decryptedpassword = DecryptSecret($password)
 
-            Add-DynamicFormControl -Form $editForm -ControlType "Text" -ControlName "txtEditSystemName" -Left 120 -Top 20 -Text "$systemName"
-    
-            Add-DynamicFormControl -Form $editForm -ControlType "Text" -ControlName "lblEditIPAddress" -Left 20 -Top 50 -Text "IP Address:"
-
-            Add-DynamicFormControl -Form $editForm -ControlType "Text" -ControlName "txtEditIPAddress" -Left 120 -Top 50 -Text "$ipAddress"
-    
-              $lblEditUsername = New-Object System.Windows.Forms.Label
-            $lblEditUsername.Location = New-Object System.Drawing.Point(20, 80)
-            $lblEditUsername.Text = "Username:"
-            $editForm.Controls.Add($lblEditUsername)
-
-            $txtEditUsername = New-Object System.Windows.Forms.TextBox
-            $txtEditUsername.Location = New-Object System.Drawing.Point(120, 80)
-            $txtEditUsername.Size = New-Object System.Drawing.Size(160, 20)
-            $txtEditUsername.Text = $selectedRow.Cells[2].Value
-            $editForm.Controls.Add($txtEditUsername)
-
-            $lblEditPassword = New-Object System.Windows.Forms.Label
-            $lblEditPassword.Location = New-Object System.Drawing.Point(20, 110)
-            $lblEditPassword.Text = "Password:"
-            $editForm.Controls.Add($lblEditPassword)
-
-            $txtEditPassword = New-Object System.Windows.Forms.TextBox
-            $txtEditPassword.Location = New-Object System.Drawing.Point(120, 110)
-            $txtEditPassword.Size = New-Object System.Drawing.Size(160, 20)
-            $txtEditPassword.Text = $selectedRow.Cells[3].Value
-            $editForm.Controls.Add($txtEditPassword)
+            # Show a dialog to allow editing of the values
+            $editForm = New-Object System.Windows.Forms.Form
+            $editForm.Text = "Edit Secret"
+            $editForm.Size = New-Object System.Drawing.Size(350, 260)
+            $editForm.StartPosition = "CenterScreen"
             
+
+            Add-DynamicFormControl -Form $editForm -ControlType "Label" -ControlName "lblEditSystemName" -Left 20 -Top 20 -Text "System Name:"
+            Add-DynamicFormControl -Form $editForm -ControlType "Textbox" -ControlName "txtEditSystemName" -Left 120 -Top 20 -Text "$systemName"
+
+            Add-DynamicFormControl -Form $editForm -ControlType "Label" -ControlName "lblEditIPAddress" -Left 20 -Top 50 -Text "IP Address:"
+            Add-DynamicFormControl -Form $editForm -ControlType "Textbox" -ControlName "txtEditIPAddress" -Left 120 -Top 50 -Text "$ipAddress"
+            
+            Add-DynamicFormControl -Form $editForm -ControlType "Label" -ControlName "lblEditUsername" -Left 20 -Top 80 -Text "UserName:"
+            Add-DynamicFormControl -Form $editForm -ControlType "Textbox" -ControlName "txtEditUsername" -Left 120 -Top 80 -Text "$username"
+            
+            Add-DynamicFormControl -Form $editForm -ControlType "Label" -ControlName "lblCurrentPassword" -Left 20 -Top 110 -Text "Password:"
+            Add-DynamicFormControl -Form $editForm -ControlType "Textbox" -ControlName "txtCurrentPassword" -Left 120 -Top 110 -Text "$decryptedpassword"
+            
+            Add-DynamicFormControl -Form $editForm -ControlType "Label" -ControlName "lblNewPassword" -Left 20 -Top 140 -Text "NewPassword:"
+
+            $txtNewPassword = New-Object System.Windows.Forms.TextBox
+            $txtNewPassword.Location = New-Object System.Drawing.Point(120, 140)
+            $txtNewPassword.Size = New-Object System.Drawing.Size(150, 20)
+            $txtNewPassword.Text = ""
+
+            $btnGeneratePassword = New-Object System.Windows.Forms.Button
+            $btnGeneratePassword.Location = New-Object System.Drawing.Point(30, 170)
+            $btnGeneratePassword.Size = New-Object System.Drawing.Size(100, 30)
+            $btnGeneratePassword.Text = "Generate"
+
             $btnSave = New-Object System.Windows.Forms.Button
-            $btnSave.Location = New-Object System.Drawing.Point(120, 140)
-            $btnSave.Size = New-Object System.Drawing.Size(75, 23)
+            $btnSave.Location = New-Object System.Drawing.Point(150, 170)
+            $btnSave.Size = New-Object System.Drawing.Size(100, 30)
             $btnSave.Text = "Save"
 
-            $editForm.Controls.Add($btnSave)
-    
+            $editForm.Controls.AddRange(@($txtNewPassword,$btnSave,$btnGeneratePassword))
+            
+            $btnGeneratePassword.Add_Click({ 
+                $txtNewPassword.Text = "$(GeneratePassword -Length 16)"
+             })
+
             $editForm.ShowDialog()
         }
     }
@@ -293,8 +297,10 @@ function PSPasswordManager {
                 switch ($columnName) {
                     "Password" {
                         $selectedRow = $dataGridView.Rows[$selectedCell.RowIndex]
-                        $actualPassword = $selectedRow.Cells[4].Value
-                        DecryptSecret($actualPassword)
+                        $encryptedPassword = $selectedRow.Cells[4].Value
+                        $decryptedpassword = DecryptSecret($encryptedPassword)
+                        $decryptedpassword | set-clipboard
+                        StatusMsg("'$($selectedRow.Cells[0].Value)'Password copied to clipboard.")
                     }
                     "UserName" {
                         $selectedRow = $dataGridView.Rows[$selectedCell.RowIndex]
@@ -331,5 +337,6 @@ function PSPasswordManager {
     # Display the form
     Load_Secrets
     $form.ShowDialog()
-    
 }
+
+PsPasswordManager
