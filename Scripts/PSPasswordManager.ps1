@@ -1,4 +1,11 @@
 function PsPasswordManager {
+<#
+.DESCRIPTION 
+Name: PsPasswordManager
+Author: Mark Go
+Purpose: Simple Password Manager. Allows creating,reading,updating,and deleting passwords.
+
+#>
     #############################
     #### Declare Script Variables
     #############################
