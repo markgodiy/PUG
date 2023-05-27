@@ -107,7 +107,7 @@ function PSPasswordManager {
         if ($systemName) {
             $credentials = Get-Credential
             $secretObject = [ordered]@{
-                "ID" = Get-Random -Minimum 100 -maximum 999
+                "ID" = "$(Get-Date -Format "yymmddHHmm")$(Get-Random -Minimum 100 -maximum 999)"
                 "SystemName" = $systemName
                 "IPAddress"  = $txtIPAddress.Text
                 "UserName"   = $credentials.UserName
@@ -183,12 +183,40 @@ function PSPasswordManager {
             # Get the existing values of the selected row
             $systemName = $selectedRow.Cells[0].Value
             $ipAddress = $selectedRow.Cells[1].Value
-    
+
             # Show a dialog to allow editing of the values
             $editForm = New-Object System.Windows.Forms.Form
             $editForm.Text = "Edit Secret"
             $editForm.Size = New-Object System.Drawing.Size(320, 220)
             $editForm.StartPosition = "CenterScreen"
+    
+            function Add-DynamicFormControl {
+                param(
+                    [Parameter(Mandatory = $true)][System.Windows.Forms.Form]$Form,
+                    [Parameter(Mandatory = $true)][string]$ControlType,
+                    [Parameter(Mandatory = $true)][string]$ControlName,
+                    [Parameter(Mandatory = $true)][int]$Left,
+                    [Parameter(Mandatory = $true)][int]$Top,
+                    [int]$Width = 100,
+                    [int]$Height = 20,
+                    [string]$Text = ""
+                )
+            
+                # Create the form control object based on the control type
+                $control = New-Object "System.Windows.Forms.$ControlType"
+                $control.Name = $ControlName
+                $control.Location = New-Object System.Drawing.Point($Left, $Top)
+                $control.Width = $Width
+                $control.Height = $Height
+                $control.Text = $Text
+            
+                # Create a hashtable or custom object to hold the control's value
+                $value = @{ Name = $ControlName; Control = $control; Value = $null }
+            
+                # Add the control and its value to the form
+                $Form.Controls.Add($control)
+                $Form.Tag = $Form.Tag + $value
+            }
     
             $lblEditSystemName = New-Object System.Windows.Forms.Label
             $lblEditSystemName.Location = New-Object System.Drawing.Point(20, 20)
@@ -244,8 +272,7 @@ function PSPasswordManager {
             $editForm.ShowDialog()
         }
     }
-    
-    
+        
     function StatusMsg($msg) {
         $statusLabel.Text = $msg
         Start-Sleep -Seconds 2
