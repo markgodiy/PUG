@@ -183,13 +183,7 @@ function PSPasswordManager {
             # Get the existing values of the selected row
             $systemName = $selectedRow.Cells[0].Value
             $ipAddress = $selectedRow.Cells[1].Value
-
-            # Show a dialog to allow editing of the values
-            $editForm = New-Object System.Windows.Forms.Form
-            $editForm.Text = "Edit Secret"
-            $editForm.Size = New-Object System.Drawing.Size(320, 220)
-            $editForm.StartPosition = "CenterScreen"
-    
+   
             function Add-DynamicFormControl {
                 param(
                     [Parameter(Mandatory = $true)][System.Windows.Forms.Form]$Form,
@@ -217,11 +211,16 @@ function PSPasswordManager {
                 $Form.Controls.Add($control)
                 $Form.Tag = $Form.Tag + $value
             }
-    
-            $lblEditSystemName = New-Object System.Windows.Forms.Label
-            $lblEditSystemName.Location = New-Object System.Drawing.Point(20, 20)
-            $lblEditSystemName.Text = "System Name:"
-            $editForm.Controls.Add($lblEditSystemName)
+
+            # Show a dialog to allow editing of the values
+            $editForm = New-Object System.Windows.Forms.Form
+            $editForm.Text = "Edit Secret"
+            $editForm.Size = New-Object System.Drawing.Size(320, 220)
+            $editForm.StartPosition = "CenterScreen"
+
+            Add-DynamicFormControl -Form $editForm -ControlType "Label" -ControlName "lblEditSystemName" -Left 20 -Top 20 -Text "System Name:"
+
+            Add-DynamicFormControl -Form $editForm -ControlType "Text" -ControlName "txtEditSystemName" -Left 120 -Top 20 -Text "System Name:"
     
             $txtEditSystemName = New-Object System.Windows.Forms.TextBox
             $txtEditSystemName.Location = New-Object System.Drawing.Point(120, 20)
