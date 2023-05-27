@@ -107,6 +107,7 @@ function PSPasswordManager {
         if ($systemName) {
             $credentials = Get-Credential
             $secretObject = [ordered]@{
+                "ID" = Get-Random -Minimum 100 -maximum 999
                 "SystemName" = $systemName
                 "IPAddress"  = $txtIPAddress.Text
                 "UserName"   = $credentials.UserName
