@@ -3,7 +3,6 @@ function PsPasswordManager {
 .DESCRIPTION 
 Name: PsPasswordManager
 Purpose: Simple Password Manager. Allows creating,reading,updating,and deleting passwords.
-
 #>
     #############################
     #### Declare Script Variables
