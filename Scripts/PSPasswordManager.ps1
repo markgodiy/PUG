@@ -60,9 +60,9 @@ function PSPasswordManager {
     $btnDelete.Text = "Delete"
 
     $btnEdit = New-Object System.Windows.Forms.Button
-$btnEdit.Location = New-Object System.Drawing.Point(350, 70)
-$btnEdit.Size = New-Object System.Drawing.Size(100, 30)
-$btnEdit.Text = "Edit"
+    $btnEdit.Location = New-Object System.Drawing.Point(350, 70)
+    $btnEdit.Size = New-Object System.Drawing.Size(100, 30)
+    $btnEdit.Text = "Edit"
 
     
     # Add Datagridview
@@ -79,7 +79,7 @@ $btnEdit.Text = "Edit"
     $dataGridView.Columns["EncryptedPassword"].Visible = $false # Set the "Actual Password" column to be hidden
     
     # Add all controls to the form, otherwise it will be blank
-    $form.Controls.AddRange(@($lblSystemName, $txtSystemName, $lblIPAddress, $txtIPAddress, $btnAdd, $btnRefresh,$btnDelete, $dataGridView,$statusBar))
+    $form.Controls.AddRange(@($lblSystemName, $txtSystemName, $lblIPAddress, $txtIPAddress, $btnAdd, $btnRefresh, $btnDelete, $dataGridView, $statusBar))
     $form.Controls.AddRange(@($lblSystemName, $txtSystemName, $lblIPAddress, $txtIPAddress, $btnAdd, $btnRefresh, $btnDelete, $btnEdit, $dataGridView, $statusBar))
 
     
@@ -108,7 +108,7 @@ $btnEdit.Text = "Edit"
             $credentials = Get-Credential
             $secretObject = [ordered]@{
                 "SystemName" = $systemName
-                "IPAddress" = $txtIPAddress.Text
+                "IPAddress"  = $txtIPAddress.Text
                 "UserName"   = $credentials.UserName
                 "Password"   = $credentials.Password | ConvertFrom-SecureString
             }
@@ -122,7 +122,8 @@ $btnEdit.Text = "Edit"
             catch {
                 StatusMsg("Unable to add new data to secrets ...")
             }
-        } else {
+        }
+        else {
             StatusMsg("System name is required...")
         }
         Load_Secrets
@@ -144,7 +145,8 @@ $btnEdit.Text = "Edit"
             [System.Runtime.InteropServices.Marshal]::ZeroFreeBSTR($bstr)
             $plaintextPassword | Set-Clipboard
             StatusMsg("Password copied to clipboard.")
-        } catch {
+        }
+        catch {
             StatusMsg("Decryption Failed. $($Error[0].Exception)")
         }
     
@@ -184,7 +186,7 @@ $btnEdit.Text = "Edit"
             # Show a dialog to allow editing of the values
             $editForm = New-Object System.Windows.Forms.Form
             $editForm.Text = "Edit Secret"
-            $editForm.Size = New-Object System.Drawing.Size(300, 150)
+            $editForm.Size = New-Object System.Drawing.Size(300, 220)
             $editForm.StartPosition = "CenterScreen"
     
             $lblEditSystemName = New-Object System.Windows.Forms.Label
@@ -245,7 +247,7 @@ $btnEdit.Text = "Edit"
     }
     
     
-    function StatusMsg($msg){
+    function StatusMsg($msg) {
         $statusLabel.Text = $msg
         Start-Sleep -Seconds 2
         $statusLabel.Text = ""
@@ -257,7 +259,7 @@ $btnEdit.Text = "Edit"
     
     $btnAdd.Add_Click({ Add_NewSecret($txtSystemName.Text) })
     
-    $btnRefresh.Add_Click({Load_Secrets})
+    $btnRefresh.Add_Click({ Load_Secrets })
     
     $btnDelete.Add_Click({ Delete_Secret })
 
@@ -267,37 +269,36 @@ $btnEdit.Text = "Edit"
     # Add double-click event for copying password to clipboard
     $dataGridView.Add_CellDoubleClick({
 
-        if ($dataGridView.SelectedCells.Count -gt 0) {
+            if ($dataGridView.SelectedCells.Count -gt 0) {
             
-            $selectedCell = $dataGridView.SelectedCells[0]
-            $columnName = $selectedCell.OwningColumn.Name
+                $selectedCell = $dataGridView.SelectedCells[0]
+                $columnName = $selectedCell.OwningColumn.Name
             
-            switch ($columnName) {
-                "Password" {
-                    $selectedRow = $dataGridView.Rows[$selectedCell.RowIndex]
-                    $actualPassword = $selectedRow.Cells[4].Value
-                    DecryptSecret($actualPassword)
-                }
-                "UserName" {
-                    $selectedRow = $dataGridView.Rows[$selectedCell.RowIndex]
-                    $UserName = $selectedRow.Cells[2].Value
-                    $UserName | Set-Clipboard
-                    StatusMsg("'$($selectedRow.Cells[0].Value)' Username copied to clipboard...")
+                switch ($columnName) {
+                    "Password" {
+                        $selectedRow = $dataGridView.Rows[$selectedCell.RowIndex]
+                        $actualPassword = $selectedRow.Cells[4].Value
+                        DecryptSecret($actualPassword)
+                    }
+                    "UserName" {
+                        $selectedRow = $dataGridView.Rows[$selectedCell.RowIndex]
+                        $UserName = $selectedRow.Cells[2].Value
+                        $UserName | Set-Clipboard
+                        StatusMsg("'$($selectedRow.Cells[0].Value)' Username copied to clipboard...")
 
+                    }
+                    "IPAddress" {
+                        $selectedRow = $dataGridView.Rows[$selectedCell.RowIndex]
+                        $IPAddress = $selectedRow.Cells[1].Value
+                        $IPAddress | Set-Clipboard
+                        StatusMsg("''$($selectedRow.Cells[0].Value)'' IPAddress copied to clipboard...")
+                    }
+                    "SystemName" {
+                        # PlaceHolder. Code for editing properties.
+                    }   
                 }
-                "IPAddress" {
-                    $selectedRow = $dataGridView.Rows[$selectedCell.RowIndex]
-                    $IPAddress = $selectedRow.Cells[1].Value
-                    $IPAddress | Set-Clipboard
-                    StatusMsg("''$($selectedRow.Cells[0].Value)'' IPAddress copied to clipboard...")
-                }
-                "SystemName" {
-                    # PlaceHolder. Code for editing properties.
-                }   
-
             }
-        }
-    })
+        })
     
     #############################
     ### Initialize Form
@@ -305,7 +306,8 @@ $btnEdit.Text = "Edit"
 
     if (Test-Path $script:SecretFile) {
         $existingData = Get-Content -Raw -Path $script:SecretFile | ConvertFrom-Json
-    } else {
+    }
+    else {
         $existingData = @()
         $existingData | ConvertTo-Json | Out-File -FilePath $script:SecretFile -Encoding UTF8
     }
@@ -314,4 +316,4 @@ $btnEdit.Text = "Edit"
     Load_Secrets
     $form.ShowDialog()
     
-    }
+}
