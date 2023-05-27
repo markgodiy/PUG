@@ -1,18 +1,18 @@
 function PsPasswordManager {
-<#
+    <#
 .DESCRIPTION 
 Name: PsPasswordManager
 Purpose: Simple Password Manager. Allows creating,reading,updating,and deleting passwords.
 #>
 
-#############################
-#### Declare Script Variables
-#############################
+    #############################
+    #### Declare Script Variables
+    #############################
     $script:SecretFile = $(Join-Path $env:APPDATA "Secrets.json")
      
-#############################
-#### Create the main form and controls
-#############################
+    #############################
+    #### Create the main form and controls
+    #############################
     Add-Type -AssemblyName System.Windows.Forms
     Add-Type -AssemblyName System.Drawing
 
@@ -85,9 +85,9 @@ Purpose: Simple Password Manager. Allows creating,reading,updating,and deleting 
     # Add all controls to the form, otherwise form will be blank
     $form.Controls.AddRange(@($lblSystemName, $txtSystemName, $lblIPAddress, $txtIPAddress, $btnAdd, $btnRefresh, $btnDelete, $btnEdit, $dataGridView, $statusBar))
     
-#############################
-#### Functions Region 
-#############################
+    #############################
+    #### Functions Region 
+    #############################
 
     # Load existing input data from file
     function Load_Secrets {
@@ -181,13 +181,13 @@ Purpose: Simple Password Manager. Allows creating,reading,updating,and deleting 
     }
 
     function GeneratePassword {
-            param ([int]$Length)
-            $validCharacters = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!@#$%^&*()_+=-"
-            $genPassword = ""
-            $random = New-Object System.Random
-            while ($genPassword.Length -lt $Length) {$genPassword += $validCharacters[$random.Next(0, $validCharacters.Length)]}
-            return $genPassword
-        }
+        param ([int]$Length)
+        $validCharacters = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!@#$%^&*()_+=-"
+        $genPassword = ""
+        $random = New-Object System.Random
+        while ($genPassword.Length -lt $Length) { $genPassword += $validCharacters[$random.Next(0, $validCharacters.Length)] }
+        return $genPassword
+    }
 
     Function Edit_Secret {
 
@@ -262,11 +262,11 @@ Purpose: Simple Password Manager. Allows creating,reading,updating,and deleting 
             $btnSave.Size = New-Object System.Drawing.Size(100, 30)
             $btnSave.Text = "Save"
 
-            $editForm.Controls.AddRange(@($txtNewPassword,$btnSave,$btnGeneratePassword))
+            $editForm.Controls.AddRange(@($txtNewPassword, $btnSave, $btnGeneratePassword))
             
             $btnGeneratePassword.Add_Click({ 
-                $txtNewPassword.Text = "$(GeneratePassword -Length 16)"
-             })
+                    $txtNewPassword.Text = "$(GeneratePassword -Length 16)"
+                })
 
             $editForm.ShowDialog()
         }
@@ -278,9 +278,9 @@ Purpose: Simple Password Manager. Allows creating,reading,updating,and deleting 
         $statusLabel.Text = ""
     }
     
-#############################
-### Form Events Region
-#############################
+    #############################
+    ### Form Events Region
+    #############################
     
     $btnAdd.Add_Click({ Add_NewSecret($txtSystemName.Text) })
     
@@ -327,9 +327,9 @@ Purpose: Simple Password Manager. Allows creating,reading,updating,and deleting 
             }
         })
     
-    #############################
-    ### Initialize Form
-    #############################
+#############################
+### Initialize Form
+#############################
 
     if (Test-Path $script:SecretFile) {
         $existingData = Get-Content -Raw -Path $script:SecretFile | ConvertFrom-Json
