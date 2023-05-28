@@ -31,4 +31,4 @@ function Speak-RobotVoice {
 
 }
 
-Write-Output "Function:Speak-RobotVoice has been loaded."
+Write-Output " Function: 'Speak-RobotVoice' has been loaded."
