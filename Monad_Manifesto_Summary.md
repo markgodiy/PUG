@@ -15,9 +15,9 @@ The Monad Manifesto, published in 2002 by Jeffrey Snover, outlines the key conce
 
 - **Scriptability**: The Manifesto highlights the significance of scriptability, enabling administrators to write scripts to automate repetitive tasks and orchestrate complex operations. Monad provides a rich scripting language that is concise, expressive, and capable of handling diverse automation scenarios.
 
-- **Consistent Data Access**: Monad promotes consistent access to different types of data, including file systems, registries, and other structured data sources. It provides a unified approach to data access through a set of intuitive and consistent commands.
-
 - **Extensibility**: Monad is designed to be extensible, allowing users to add their own custom commands and functionalities to enhance the scripting experience. This enables administrators to tailor the automation system to their specific needs. 
+
+- **Consistent Data Access**: Monad promotes consistent access to different types of data, including file systems, registries, and other structured data sources. It provides a unified approach to data access through a set of intuitive and consistent commands.
 
 - **Integration with Existing Tools**: The Manifesto acknowledges the importance of integrating with existing tools and systems. Monad provides mechanisms for interoperability with COM, .NET, WMI, and other technologies, allowing administrators to leverage their existing investments.
 
