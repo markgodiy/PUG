@@ -4,7 +4,6 @@ function Speak-RobotVoice {
         [Parameter(Mandatory = $true)]$Gender
     )
 
-
     #Load Assembly for Spech Synthesizer
     Add-Type -AssemblyName System.Speech
 
@@ -15,7 +14,7 @@ function Speak-RobotVoice {
     Switch ($Gender) {
         Male { $voiceGender = [System.Speech.Synthesis.VoiceGender]::Male }
         Female { $voiceGender = [System.Speech.Synthesis.VoiceGender]::Female }
-        Default { $voiceGender = [System.Speech.Synthesis.VoiceGender]::Female }
+        Default { $voiceGender = [System.Speech.Synthesis.VoiceGender]::Male }
     }
 
     # Get the installed voices
@@ -32,4 +31,4 @@ function Speak-RobotVoice {
 
 }
 
-Speak-RobotVoice
+Write-Output "Function:Speak-RobotVoice has been loaded."
