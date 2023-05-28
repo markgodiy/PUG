@@ -10,17 +10,16 @@ Back in Aug 8, 2002, Jeffrey Snover published the ["Monad Manifesto"](https://ww
 
 Jeffrey Snover is credited as the inventor of PowerShell, but he himself claims to have only laid the foundation, then "a series of rockstars added their awesomeness to the project". 
 
-## Interactive PowerShell Introduction Training
-- Microsoft account required (DOD CAC does not work, I tried)
-
-https://learn.microsoft.com/en-us/training/paths/powershell/?source=learn
-
 ## about_Powershell
 
 https://learn.microsoft.com/en-us/powershell/scripting/overview?view=powershell-5.1#next-steps
 
 https://learn.microsoft.com/en-us/powershell/module/microsoft.powershell.core/about/about_windows_powershell_5.1?view=powershell-5.1
 
+## Interactive PowerShell Introduction Training
+- Microsoft account required (DOD CAC does not work, I tried)
+
+https://learn.microsoft.com/en-us/training/paths/powershell/?source=learn
 
 ## Getting Started with Microsoft PowerShell
 
