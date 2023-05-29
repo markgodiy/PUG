@@ -1,4 +1,11 @@
 function Speak-RobotVoice {
+    
+    <#
+    .DESCRIPTION
+    Author: Mark Go,
+    Purpose: Text-to-speech applications. 
+    
+    #>
     param(
         [Parameter(Mandatory = $true)]$Text,
         [Parameter(Mandatory = $true)]$Gender
@@ -31,4 +38,4 @@ function Speak-RobotVoice {
 
 }
 
-Write-Output " Function: 'Speak-RobotVoice' has been loaded."
+# Write-Output " Function: 'Speak-RobotVoice' has been loaded."

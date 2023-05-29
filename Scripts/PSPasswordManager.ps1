@@ -23,6 +23,8 @@ Purpose: Simple Password Manager. Allows creating,reading,updating,and deleting 
     $form.StartPosition = "CenterScreen"
     $form.FormBorderStyle = "FixedDialog"
     $form.MaximizeBox = $false
+    $form.TopMost = $True
+    $form.Add_Shown({$form.Activate()})
     
     # Add Status bar
     $statusBar = New-Object System.Windows.Forms.StatusStrip
@@ -232,6 +234,8 @@ Purpose: Simple Password Manager. Allows creating,reading,updating,and deleting 
             $editForm.Text = "Edit Secret"
             $editForm.Size = New-Object System.Drawing.Size(350, 260)
             $editForm.StartPosition = "CenterScreen"
+            $editForm.TopMost = $True
+            $editForm.Add_Shown({$editForm.Activate()})
             
 
             Add-DynamicFormControl -Form $editForm -ControlType "Label" -ControlName "lblEditSystemName" -Left 20 -Top 20 -Text "System Name:"
