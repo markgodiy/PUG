@@ -1,6 +1,6 @@
-function Get_weather {
+function Invoke-WeatherAPI {
     "Weather Forecast From Weather.gov`r`n"
-    (New-Object -com "Wscript.Shell").SendKeys("{SCROLLLOCK}{SCROLLLOCK}")
+  
     try {        
         $weathergov_api = invoke-restmethod "https://api.weather.gov/points/38.9,-77.1"
         $4cast = invoke-restmethod $weathergov_api.properties.forecast
