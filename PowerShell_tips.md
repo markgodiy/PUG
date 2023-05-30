@@ -18,7 +18,7 @@
 
 Learning and using common cmdlet aliases increases efficiency. 
 
-Aliases are detrimental to script readability, therefore, it is generally recommend to write the full cmdlet names in scripts.
+However -- Aliases are detrimental to script readability, therefore, it is generally recommend to write the full cmdlet names in scripts.
 
 1. To search if your favorite alias is available in PowerShell:
 ```
