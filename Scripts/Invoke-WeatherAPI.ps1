@@ -1,4 +1,12 @@
 function Invoke-WeatherAPI {
+    <#
+    
+    .DESCRIPTION
+    Author: Mark Go
+    Purpose: Demonstrate how to use PowerShell to consume API resources
+
+    #>
+    
     "Weather Forecast From Weather.gov`r`n"
   
     try {        
@@ -20,3 +28,4 @@ function Invoke-WeatherAPI {
         "`r`n"
     }
 }
+
