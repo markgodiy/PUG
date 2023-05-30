@@ -14,6 +14,7 @@ The Monad Manifesto, published in 2002 by Jeffrey Snover, outlines the key conce
 
 - **Discoverable Metadata**: Monad emphasizes the inclusion of metadata and documentation with commands to make them easily discoverable and provide users with comprehensive information about their usage, input, and output.
 
+
 ```
 # Verb-Noun Naming Convention/Pattern
 Get-Command
@@ -59,6 +60,7 @@ $cmdlets
 
 - **Scriptability**: The Manifesto highlights the significance of scriptability, enabling administrators to write scripts to automate repetitive tasks and orchestrate complex operations. Monad provides a rich scripting language that is concise, expressive, and capable of handling diverse automation scenarios.
 
+
 --------------------------------
 
 - **Consistent Data Access**: Monad promotes consistent access to different types of data, including file systems, registries, and other structured data sources. It provides a unified approach to data access through a set of intuitive and consistent commands.
@@ -70,6 +72,7 @@ Set-Location (alias: cd)
 ```
 
 - **Integration with Existing Tools**: The Manifesto acknowledges the importance of integrating with existing tools and systems. Monad provides mechanisms for interoperability with COM, .NET, WMI, and other technologies, allowing administrators to leverage their existing investments.
+
 
 ```
 Find-Module

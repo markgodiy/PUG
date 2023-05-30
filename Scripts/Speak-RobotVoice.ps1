@@ -40,5 +40,3 @@ function Speak-RobotVoice {
     $synthesizer.Speak($text)
 
 }
-
-
