@@ -20,7 +20,6 @@ Get-quser <hostname>
            
         $sessionUsr = ($line -split ' +')[1]
         $tryGetID = ($line -split ' +')[2]
-        $tryGetID
 
         if ($tryGetID -match "[a-z]") {
             $sessionName = ($line -split ' +')[2]
