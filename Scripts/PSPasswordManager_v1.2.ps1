@@ -1,15 +1,21 @@
 function PsPasswordManager {
     <#
-.DESCRIPTION 
-Name: PsPasswordManager
-Purpose: Simple Password Manager. Allows creating,reading,updating,and deleting passwords.
-#>
+    .DESCRIPTION 
+    Name: PsPasswordManager
+    Author: Mark Go
+    Purpose: Simple Password Manager. Allows creating,reading,updating(wip),and deleting passwords.
+    
+    .NOTES
+    Version 1.1 Added "Export" button, which allows export of decrypted data in JSON format to C:\Temp folder.
 
-#############################
-#### Declare Script Variables
-#############################
+    #>
 
-    $script:SecretFile = $(Join-Path $env:APPDATA "Secrets.json")
+    param (
+        [string]$SecretFile = "$env:APPDATA\Secrets.json",
+        [switch]$GUI
+    )
+    
+ 
      
 #############################
 #### Create the main form and controls
@@ -23,6 +29,8 @@ Purpose: Simple Password Manager. Allows creating,reading,updating,and deleting 
     $form.StartPosition = "CenterScreen"
     $form.FormBorderStyle = "FixedDialog"
     $form.MaximizeBox = $false
+    $form.TopMost = $True
+    $form.Add_Shown({$form.Activate()})
     
     # Add Status bar
     $statusBar = New-Object System.Windows.Forms.StatusStrip
@@ -69,6 +77,13 @@ Purpose: Simple Password Manager. Allows creating,reading,updating,and deleting 
     $btnEdit.Location = New-Object System.Drawing.Point(350, 70)
     $btnEdit.Size = New-Object System.Drawing.Size(100, 30)
     $btnEdit.Text = "Edit"
+
+    $btnExport = New-Object System.Windows.Forms.Button
+    $btnExport.Location = New-Object System.Drawing.Point(460, 70)
+    $btnExport.Size = New-Object System.Drawing.Size(100, 30)
+    $btnExport.Text = "Export"
+    $form.Controls.Add($btnExport)
+
     
     # Add Datagridview
     $dataGridView = New-Object System.Windows.Forms.DataGridView
@@ -139,21 +154,19 @@ Purpose: Simple Password Manager. Allows creating,reading,updating,and deleting 
         $existingData | ConvertTo-Json | Out-File -FilePath $script:SecretFile -Encoding UTF8
     }
     
-    function DecryptSecret($Password) {
-
-        Try {
-            $secureString = $password | ConvertTo-SecureString
-            $bstr = [System.Runtime.InteropServices.Marshal]::SecureStringToBSTR($secureString)
-            $plaintextPassword = [System.Runtime.InteropServices.Marshal]::PtrToStringAuto($bstr)
-            [System.Runtime.InteropServices.Marshal]::ZeroFreeBSTR($bstr)
+    function DecryptSecret($password) {
+        if ([string]::IsNullOrEmpty($password)) {
+            return ""
         }
-        catch {
-            StatusMsg("Decryption Failed. $($Error[0].Exception)")
-        }
-
-        Return $plaintextPassword
-        
+    
+        $secureString = $password | ConvertTo-SecureString
+        $bstr = [System.Runtime.InteropServices.Marshal]::SecureStringToBSTR($secureString)
+        $plaintextPassword = [System.Runtime.InteropServices.Marshal]::PtrToStringAuto($bstr)
+        [System.Runtime.InteropServices.Marshal]::ZeroFreeBSTR($bstr)
+    
+        return $plaintextPassword
     }
+    
     
     Function Delete_Secret {
         if ($dataGridView.SelectedCells.Count -gt 0) {
@@ -232,8 +245,9 @@ Purpose: Simple Password Manager. Allows creating,reading,updating,and deleting 
             $editForm.Text = "Edit Secret"
             $editForm.Size = New-Object System.Drawing.Size(350, 260)
             $editForm.StartPosition = "CenterScreen"
+            $editForm.TopMost = $True
+            $editForm.Add_Shown({$editForm.Activate()})
             
-
             Add-DynamicFormControl -Form $editForm -ControlType "Label" -ControlName "lblEditSystemName" -Left 20 -Top 20 -Text "System Name:"
             Add-DynamicFormControl -Form $editForm -ControlType "Textbox" -ControlName "txtEditSystemName" -Left 120 -Top 20 -Text "$systemName"
 
@@ -272,6 +286,31 @@ Purpose: Simple Password Manager. Allows creating,reading,updating,and deleting 
             $editForm.ShowDialog()
         }
     }
+
+    Function Export_Secrets {
+        $exportPath = "$env:AppData\Secrets_Decrypted.json"
+        $exportData = @()
+    
+        foreach ($row in $dataGridView.Rows) {
+            $systemName = $row.Cells["SystemName"].Value
+            $ipAddress = $row.Cells["IPAddress"].Value
+            $userName = $row.Cells["UserName"].Value
+            $encryptedPassword = $row.Cells["EncryptedPassword"].Value
+            $decryptedPassword = DecryptSecret $encryptedPassword
+    
+            $exportItem = [ordered]@{
+                "SystemName" = $systemName
+                "IPAddress" = $ipAddress
+                "UserName" = $userName
+                "Password" = $decryptedPassword
+            }
+            $exportData += $exportItem
+        }
+    
+        $exportData | ConvertTo-Json | Out-File -FilePath $exportPath -Encoding UTF8
+        StatusMsg("Exported decrypted passwords to '$exportPath'.")
+    }
+    
         
     function StatusMsg($msg) {
         $statusLabel.Text = $msg
@@ -291,6 +330,7 @@ Purpose: Simple Password Manager. Allows creating,reading,updating,and deleting 
 
     $btnEdit.Add_Click({ Edit_Secret })
 
+    $btnExport.Add_Click({ Export_Secrets })
     
     # Add double-click event for copying password to clipboard
     $dataGridView.Add_CellDoubleClick({

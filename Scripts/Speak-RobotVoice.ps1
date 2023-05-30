@@ -5,6 +5,9 @@ function Speak-RobotVoice {
     Author: Mark Go,
     Purpose: Text-to-speech applications. 
     
+    .EXAMPLE
+    Speak-RobotVoice "'Speak-RobotVoice' has been loaded. Enjoy!"
+    
     #>
     param(
         [Parameter(Mandatory = $true)]$Text,
@@ -37,5 +40,3 @@ function Speak-RobotVoice {
     $synthesizer.Speak($text)
 
 }
-
-# Write-Output " Function: 'Speak-RobotVoice' has been loaded."

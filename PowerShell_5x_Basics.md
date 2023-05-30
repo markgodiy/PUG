@@ -1,6 +1,6 @@
 # PowerShell 5.1 Basics | Part I 
 
-## Equivalents
+## Equivalencies
 
 | PowerShell Cmdlet    | Purpose                        | Windows Command Equivalent | Linux Equivalent  |
 |----------------------|--------------------------------|----------------------------|-------------------|
@@ -45,6 +45,7 @@
   **Example:** `Get-Process | Select-Object Name, CPU` or `gps | select Name, CPU`
 - Sort-Object (sort): Sort objects by property.
   **Example:** `Get-Service | Sort-Object Status` or `gs | sort Status`
+
 ## Working with Variables
 - $variable = <value>`: Assign a value to a variable.
   **Example:** `$name = "John"`
@@ -52,6 +53,7 @@
   **Example:** `Get-Variable` or `gv`
 - Remove-Variable (rv): Remove a variable.
   **Example:** `Remove-Variable name` or `rv name`
+
 ## Working with Files
 - Set-Location (cd): Change current directory.
   **Example:** `Set-Location C:\Scripts` or `cd C:\Scripts`
@@ -81,6 +83,7 @@
   **Example:** `Get-Module` or `gmo`
 - Remove-Module (rm): Remove a loaded module.
   **Example:** `Remove-Module ActiveDirectory` or `rm ActiveDirectory`
+
 ## Remote Management
 - Enter-PSSession (etsn): Start an interactive session with a remote computer.
   **Example:** `Enter-PSSession -ComputerName Server01` or `etsn -ComputerName Server01`
@@ -88,6 +91,7 @@
   **Example:** `Invoke-Command -ComputerName Server01 -ScriptBlock { Get-Service }` or `icm -ComputerName Server01 -ScriptBlock { Get-Service }`
 - Copy-Item (cp): Copy files and directories to a remote computer.
   **Example:** `Copy-Item C:\file.txt -Destination \\Server01\Share` or `cp C:\file.txt \\Server01\Share`
+
 ## Scripting
 - Set-ExecutionPolicy (Set-ExecutionPolicy): Set the script execution policy.
   **Example:** `Set-ExecutionPolicy RemoteSigned` or `Set-ExecutionPolicy RemoteSigned`
