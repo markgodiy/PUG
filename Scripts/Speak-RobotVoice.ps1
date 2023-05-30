@@ -38,4 +38,4 @@ function Speak-RobotVoice {
 
 }
 
-# Write-Output " Function: 'Speak-RobotVoice' has been loaded."
+Speak-RobotVoice "'Speak-RobotVoice' has been loaded. Enjoy!"
