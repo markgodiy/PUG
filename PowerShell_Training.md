@@ -1,7 +1,7 @@
 # PowerShell Training
 
 ## Interactive PowerShell Introduction Training
-- Microsoft account required
+- Microsoft account required to run PowerShell sandboxed sessions. Otherwise, just following along with a local shell on your personal PC. 
 
 https://learn.microsoft.com/en-us/training/paths/powershell/?source=learn
 
