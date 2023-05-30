@@ -4,24 +4,18 @@ function PsPasswordManager {
     Name: PsPasswordManager
     Author: Mark Go
     Purpose: Simple Password Manager. Allows creating,reading,updating(wip),and deleting passwords.
+    
+    .NOTES
+    Version 1.1 Added "Export" button, which allows export of decrypted data in JSON format to C:\Temp folder.
+
     #>
 
     param (
-        [parameter(Mandatory = $true)]
         [string]$SecretFile = "$env:APPDATA\Secrets.json",
-    
-        [parameter()]
         [switch]$GUI
     )
     
-    $ExecutionContext.SessionState.PSVariable.Set("SecretFile", $SecretFile, $true)
-    
-
-#############################
-#### Declare Script Variables
-#############################
-
-    # $script:SecretFile = $(Join-Path $env:APPDATA "Secrets.json")
+ 
      
 #############################
 #### Create the main form and controls
@@ -83,6 +77,13 @@ function PsPasswordManager {
     $btnEdit.Location = New-Object System.Drawing.Point(350, 70)
     $btnEdit.Size = New-Object System.Drawing.Size(100, 30)
     $btnEdit.Text = "Edit"
+
+    $btnExport = New-Object System.Windows.Forms.Button
+    $btnExport.Location = New-Object System.Drawing.Point(460, 70)
+    $btnExport.Size = New-Object System.Drawing.Size(100, 30)
+    $btnExport.Text = "Export"
+    $form.Controls.Add($btnExport)
+
     
     # Add Datagridview
     $dataGridView = New-Object System.Windows.Forms.DataGridView
@@ -153,21 +154,19 @@ function PsPasswordManager {
         $existingData | ConvertTo-Json | Out-File -FilePath $script:SecretFile -Encoding UTF8
     }
     
-    function DecryptSecret($Password) {
-
-        Try {
-            $secureString = $password | ConvertTo-SecureString
-            $bstr = [System.Runtime.InteropServices.Marshal]::SecureStringToBSTR($secureString)
-            $plaintextPassword = [System.Runtime.InteropServices.Marshal]::PtrToStringAuto($bstr)
-            [System.Runtime.InteropServices.Marshal]::ZeroFreeBSTR($bstr)
+    function DecryptSecret($password) {
+        if ([string]::IsNullOrEmpty($password)) {
+            return ""
         }
-        catch {
-            StatusMsg("Decryption Failed. $($Error[0].Exception)")
-        }
-
-        Return $plaintextPassword
-        
+    
+        $secureString = $password | ConvertTo-SecureString
+        $bstr = [System.Runtime.InteropServices.Marshal]::SecureStringToBSTR($secureString)
+        $plaintextPassword = [System.Runtime.InteropServices.Marshal]::PtrToStringAuto($bstr)
+        [System.Runtime.InteropServices.Marshal]::ZeroFreeBSTR($bstr)
+    
+        return $plaintextPassword
     }
+    
     
     Function Delete_Secret {
         if ($dataGridView.SelectedCells.Count -gt 0) {
@@ -287,6 +286,31 @@ function PsPasswordManager {
             $editForm.ShowDialog()
         }
     }
+
+    Function Export_Secrets {
+        $exportPath = "$env:AppData\Secrets_Decrypted.json"
+        $exportData = @()
+    
+        foreach ($row in $dataGridView.Rows) {
+            $systemName = $row.Cells["SystemName"].Value
+            $ipAddress = $row.Cells["IPAddress"].Value
+            $userName = $row.Cells["UserName"].Value
+            $encryptedPassword = $row.Cells["EncryptedPassword"].Value
+            $decryptedPassword = DecryptSecret $encryptedPassword
+    
+            $exportItem = [ordered]@{
+                "SystemName" = $systemName
+                "IPAddress" = $ipAddress
+                "UserName" = $userName
+                "Password" = $decryptedPassword
+            }
+            $exportData += $exportItem
+        }
+    
+        $exportData | ConvertTo-Json | Out-File -FilePath $exportPath -Encoding UTF8
+        StatusMsg("Exported decrypted passwords to '$exportPath'.")
+    }
+    
         
     function StatusMsg($msg) {
         $statusLabel.Text = $msg
@@ -306,6 +330,7 @@ function PsPasswordManager {
 
     $btnEdit.Add_Click({ Edit_Secret })
 
+    $btnExport.Add_Click({ Export_Secrets })
     
     # Add double-click event for copying password to clipboard
     $dataGridView.Add_CellDoubleClick({

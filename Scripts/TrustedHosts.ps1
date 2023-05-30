@@ -31,82 +31,97 @@ By carefully evaluating the risks and implementing appropriate security measures
 function Get-TrustedHosts {
     <#
     .DESCRIPTION
-    Name: Get-TrustedHosts,
-    Author: Mark Go,
+    Name: Get-TrustedHosts
+    Author: Mark Go
     Purpose: Display IP Addresses from WSMan:\localhost\Client\TrustedHosts
     #>
     
     # Get TrustedHost value
-    $trustedhosts = Get-Item WSMan:\localhost\Client\TrustedHosts | select-object -ExpandProperty Value
-        
-    $hosts = @()
-    $i = 0
+    $trustedhosts = Get-Item WSMan:\localhost\Client\TrustedHosts | Select-Object -ExpandProperty Value
+
+    $trustedhosts = $trustedhosts.Trim()
+   
+    $hosts = @() #Initialize as array
+    $i = 0 #Initialize as counter, for use during looping
 
     # Use RegEx to check for commas in the value. 
-    # If comma found, split TrustedHosts value using the comma as delimiter
-    # Then, add hosts data into pscustomobject array
+    # If comma found, split TrustedHosts value using the comma as a delimiter
+    # Then, add hosts data into a pscustomobject array
 
     if ($trustedhosts -match ".*\,.*") {
         $Trustedhosts = $trustedhosts -split ","
-
         foreach($h in $Trustedhosts) {
-            $hdata = [PSCustomObject]@{
-                ArrayID = $i
-                IPAddress = $h
-            }
-            $hosts += $hdata
-            $i++
+                $hdata = [PSCustomObject]@{
+                    ArrayID = $i
+                    IPAddress = $h.Trim()
+                }
+                $hosts += $hdata
+                $i++
         }
+    } 
+    elseif ($trustedhosts -ne "") {
+        $hdata = [PSCustomObject]@{
+            ArrayID = $i
+            IPAddress = $trustedhosts
+        }
+        $hosts += $hdata
     }
-
-    Return $hosts
+    return $hosts
 }
-
 
 function Add-TrustedHost {
     <#
     .DESCRIPTION
     Name: Add-TrustedHost,
     Author: Mark Go,
-    Purpose: Add an IP Addresses to WSMan:\localhost\Client\TrustedHosts
+    Purpose: Admin privilege required. Add an IP Address to WSMan:\localhost\Client\TrustedHosts
+
+    .NOTES
+    Run PowerShell using the RunAs Administrator option.
+
     #>
-
-    Param (
-        [Parameter(Mandatory = $true)]$IPAddress
-    )
+    Param ([Parameter(Mandatory = $true)]$IPAddress)
     
-    $TrustedValue = $false
-    # Get TrustedHost value
-    $trustedhosts = Get-Item WSMan:\localhost\Client\TrustedHosts | select-object -ExpandProperty Value
+    $trustedhosts = Get-Item WSMan:\localhost\Client\TrustedHosts | Select-Object -ExpandProperty Value
 
-    # Split TrustedHosts value using the comma character as the delimiter
-    $arrayTrustedhosts = @()
-    $arrayTrustedhosts = $trustedhosts -split ","
-
-
-    foreach ($trustedhost in $arrayTrustedhosts) {
-        if ($trustedhost -eq $IPAddress) {
-            Write-Output "$IPAddress is already a trusted Host"
-            $TrustedValue = $true
-            Break
+    if ($trustedhosts -like "*$IPAddress*") {
+        Write-Output "`r`n$IPAddress is already a trusted host.`r`n"
+        Return
+    }
+    else {
+        if ($trustedhosts -eq "") {
+            $newTrustedHosts = "$IPAddress"
+        }
+        else {
+            $newTrustedHosts = "$trustedhosts,$IPAddress"
+        }
+    
+        Write-Output "Adding $IPAddress as a new trusted host."
+        try {
+            Set-Item -Path WSMan:\localhost\Client\TrustedHosts -Value $newTrustedHosts
+        } 
+        catch {
+            Write-Error "$($_.Exception.Message)"
         }
     }
-
-    if (!($TrustedValue)) {
-        Write-Output "Adding $IPAddress as a new trusted Host"
-        Set-Item WSMan:\localhost\Client\TrustedHosts -Value $("$trustedhosts" + ",$IPAddress")
-    }
-    
 }
+
 function Remove-TrustedHosts {
     <#
     .DESCRIPTION
-    Name: Remove-TrustedHost,
-    Author: Mark,
-    Purpose: Remove all IPAddresses from WSMan:\localhost\Client\TrustedHosts  
+    Name: Remove-TrustedHosts
+    Author: Mark
+    Purpose:  Admin privilege required. Remove all IP addresses from WSMan:\localhost\Client\TrustedHosts
+
+    .NOTES
+    Run PowerShell using the RunAs Administrator option.
+       
     #>
-
-    Set-Item WSMan:\localhost\Client\TrustedHosts -Value "$null"
-
+    [CmdletBinding(SupportsShouldProcess)]
+    param ()
+    
+    if ($PSCmdlet.ShouldProcess("WSMan:\localhost\Client\TrustedHosts", "Remove")) {
+        Set-Item -Path WSMan:\localhost\Client\TrustedHosts -Value "$null"
+    } 
 }
 
