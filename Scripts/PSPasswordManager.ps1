@@ -7,21 +7,11 @@ function PsPasswordManager {
     #>
 
     param (
-        [parameter(Mandatory = $true)]
         [string]$SecretFile = "$env:APPDATA\Secrets.json",
-    
-        [parameter()]
         [switch]$GUI
     )
     
-    $ExecutionContext.SessionState.PSVariable.Set("SecretFile", $SecretFile, $true)
-    
-
-#############################
-#### Declare Script Variables
-#############################
-
-    # $script:SecretFile = $(Join-Path $env:APPDATA "Secrets.json")
+ 
      
 #############################
 #### Create the main form and controls
