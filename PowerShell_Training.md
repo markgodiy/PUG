@@ -1,7 +1,7 @@
 # PowerShell Training
 
 ## Interactive PowerShell Introduction Training
-- Microsoft account required (DOD CAC does not work, I tried)
+- Microsoft account required
 
 https://learn.microsoft.com/en-us/training/paths/powershell/?source=learn
 
