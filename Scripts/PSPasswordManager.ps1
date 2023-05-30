@@ -1,17 +1,15 @@
 function PsPasswordManager {
     <#
-    .DESCRIPTION 
-    Name: PsPasswordManager
-    Author: Mark Go
-    Purpose: Simple Password Manager. Allows creating,reading,updating(wip),and deleting passwords.
-    #>
+.DESCRIPTION 
+Name: PsPasswordManager
+Purpose: Simple Password Manager. Allows creating,reading,updating,and deleting passwords.
+#>
 
-    param (
-        [string]$SecretFile = "$env:APPDATA\Secrets.json",
-        [switch]$GUI
-    )
-    
- 
+#############################
+#### Declare Script Variables
+#############################
+
+    $script:SecretFile = $(Join-Path $env:APPDATA "Secrets.json")
      
 #############################
 #### Create the main form and controls
@@ -25,8 +23,6 @@ function PsPasswordManager {
     $form.StartPosition = "CenterScreen"
     $form.FormBorderStyle = "FixedDialog"
     $form.MaximizeBox = $false
-    $form.TopMost = $True
-    $form.Add_Shown({$form.Activate()})
     
     # Add Status bar
     $statusBar = New-Object System.Windows.Forms.StatusStrip
@@ -236,9 +232,8 @@ function PsPasswordManager {
             $editForm.Text = "Edit Secret"
             $editForm.Size = New-Object System.Drawing.Size(350, 260)
             $editForm.StartPosition = "CenterScreen"
-            $editForm.TopMost = $True
-            $editForm.Add_Shown({$editForm.Activate()})
             
+
             Add-DynamicFormControl -Form $editForm -ControlType "Label" -ControlName "lblEditSystemName" -Left 20 -Top 20 -Text "System Name:"
             Add-DynamicFormControl -Form $editForm -ControlType "Textbox" -ControlName "txtEditSystemName" -Left 120 -Top 20 -Text "$systemName"
 
