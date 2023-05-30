@@ -1,23 +1,30 @@
 function Speak-RobotVoice {
+    
+    <#
+    .DESCRIPTION
+    Author: Mark Go,
+    Purpose: Text-to-speech applications. 
+    
+    #>
     param(
         [Parameter(Mandatory = $true)]$Text,
-        [Parameter(Mandatory = $true)]$Gender
+        $Gender
     )
 
-    #Load Assembly for Spech Synthesizer
+    # Load Assembly for Spech Synthesizer
     Add-Type -AssemblyName System.Speech
 
     # Create an instance of SpeechSynthesizer
     $synthesizer = New-Object System.Speech.Synthesis.SpeechSynthesizer
 
-    # Define variable based on Gender input
+    # Define variable based on Gender input, or set to Default
     Switch ($Gender) {
         Male { $voiceGender = [System.Speech.Synthesis.VoiceGender]::Male }
         Female { $voiceGender = [System.Speech.Synthesis.VoiceGender]::Female }
         Default { $voiceGender = [System.Speech.Synthesis.VoiceGender]::Male }
     }
 
-    # Get the installed voices
+    # Get installed voices
     $voices = $synthesizer.GetInstalledVoices()
 
     # Find the voice with the desired gender
@@ -31,4 +38,4 @@ function Speak-RobotVoice {
 
 }
 
-Write-Output " Function: 'Speak-RobotVoice' has been loaded."
+# Write-Output " Function: 'Speak-RobotVoice' has been loaded."
