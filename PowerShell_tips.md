@@ -243,3 +243,10 @@ Machine-learning and "Artificial Intelligence" (AI) as educational tools can be 
 6. **Reddit**: 
     - PowerShell SubReddit https://www.reddit.com/r/PowerShell/, highly recommended to peruse the pinned *What have you done with PowerShell this month?* monthly topics.
 
+
+# MORE TIPS TO ADD
+
+1. Profiles
+2. Jobs
+3. Multithreading, Runspaces
+
