@@ -71,7 +71,7 @@ Alias           ls -> Get-ChildItem
 Alias           rmdir -> Remove-Item
 Alias           sls -> Select-String
 ```
-2.Validate IP Address by pattern matching
+2. Validate IP Address by pattern matching
 
 ```
 $ipregex = "^(([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\.){3}([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])$"
@@ -99,11 +99,11 @@ Write-Output "Extracted email: $email"
 ```
 
 Write-Output "$env:AppData"
-C:\Users\user1\AppData\Roaming
+# Result will be: C:\Users\user1\AppData\Roaming
 
 
 Write-Output '$env:AppData'
-$env:AppData
+# Result will be: $env:AppData
 ```
 
 ## Interrogating/Exploring Objects and Properties
@@ -225,7 +225,7 @@ Machine-learning and "Artificial Intelligence" (AI) as educational tools can be 
 
 3. **Microsoft Learn**
 
-    - PowerShell Scripting Blog series. From August 2004, retired February 2021. Excellent collection of blogs related to PowerShell, varying from simple examples to deep-dives into various applications of PowerShell.
+    - PowerShell Scripting Blog series. From August 2004, retired February 2021. Excellent collection of blog-style articles related to PowerShell, varying from simple examples to deep-dives into various applications of PowerShell.
 
     - PowerShell Online Documentation
 

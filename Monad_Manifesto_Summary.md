@@ -38,8 +38,6 @@ New-Item -Path "C:\NewFolder" -ItemType Directory
 
 # Remove a file
 Remove-Item -Path "C:\OldFile.txt"
-
-
 ```
 
 ```
@@ -65,7 +63,17 @@ $cmdlets
 
 - **Consistent Data Access**: Monad promotes consistent access to different types of data, including file systems, registries, and other structured data sources. It provides a unified approach to data access through a set of intuitive and consistent commands.
 
+```
+Get-PsDrive
+
+Set-Location (alias: cd)
+```
+
 - **Integration with Existing Tools**: The Manifesto acknowledges the importance of integrating with existing tools and systems. Monad provides mechanisms for interoperability with COM, .NET, WMI, and other technologies, allowing administrators to leverage their existing investments.
+
+```
+Find-Module
+```
 
 # Summary of Summary
 These key concepts laid out in the Monad Manifesto formed the foundation for the development of Windows PowerShell, which has become a widely adopted automation and scripting platform in the Windows ecosystem.
