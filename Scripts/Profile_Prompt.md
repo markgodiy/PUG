@@ -1,6 +1,8 @@
 
 ### Example prompt function for use in the PowerShell profiles. 
 
+Function must be named `function prompt {}`
+
 ```
 function prompt {
 
@@ -26,3 +28,4 @@ function prompt {
 	Return " PS> "
 } #end prompt function
 ```
+
