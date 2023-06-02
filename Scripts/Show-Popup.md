@@ -15,3 +15,5 @@ Example:
 $wshell = New-Object -ComObject Wscript.Shell
 $wshell.Popup("Operation Completed",0,"Done",0x1)
 ```
+
+![image](https://github.com/markgodiy/PUG/assets/101022486/3bbe3f17-361e-4f7f-8912-f35464c17a94)
