@@ -1,6 +1,10 @@
 function Ping-MyServer {
 <#
 
+Admin required to run the following commandlets in this script: 
+Start-Service
+Invoke-Command
+
 Very basic script: 
 1. Ping a server
 2. If server responds to ping, start winrm service
@@ -11,28 +15,30 @@ then get DNS using get-netipconfiguration
 #>
 
 param(
-$ComputerName
+	$ComputerName
 )
 
-write-host "Server is $ComputerName"
+Write-Host "Server is $ComputerName"
 
-$pingtest = test-connection $ComputerName -count 1 -ea 0 -quiet
+$pingtest = Test-Connection $ComputerName -Count 1 -ErrorAction 0 -Quiet
 
-if($pingtest){
-	write-host "$ComputerName responded."
+if ($pingtest) {
+	Write-Host "$ComputerName responded."
 	
-	Get-Service WinRM -Computername $ComputerName | start-service
-
+	Get-Service WinRM -Computername $ComputerName | Start-Service
 	
-	if(Get-Service WinRM -Computername $ComputerName) {
+	if (Get-Service WinRM -Computername $ComputerName) {
+	
 		Write-host "WinRM is running on $ComputerName"
-	 invoke-command $ComputerName {
-		Get-NetIPConfiguration
-	 }
+		
+		Invoke-Command $ComputerName {
+			Get-NetIPConfiguration
+		}
 	}
-	} else {
+}
+else {
 	Write-Host "$ComputerName is not responding to ping"
-	}
+}
 } 
 
 Ping-MyServer
