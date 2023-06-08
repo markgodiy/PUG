@@ -1,6 +1,6 @@
 function Ping-MyServer {
 <#
-
+.DESCRIPTION
 Admin required to run the following commandlets in this script: 
 Start-Service
 Invoke-Command
@@ -12,6 +12,10 @@ Very basic script:
 then get DNS using get-netipconfiguration
 4. Include some feedback on the shell screen so it's easier to follow the script as it executes. 
 5. Added the parameter ComputerName to make the function reusable. 
+
+.EXAMPLE
+Ping-MyServer <serverhostname or IP>
+
 #>
 
 param(
