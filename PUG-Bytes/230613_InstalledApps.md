@@ -1,5 +1,11 @@
 # User PowerShell to get a list of installed applications
 
+Cmdlets Used:
+`Get-ItemProperty`
+`Select-Object`
+`Sort-Object`
+`Format-Table`
+
 ## To get a list of applications installed on the local machine: 
 
 One-Liner:
