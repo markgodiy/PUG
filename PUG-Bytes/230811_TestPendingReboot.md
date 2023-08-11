@@ -2,7 +2,7 @@
 
 ## Background
 
-During my never-ending quest search for PowerShell scripts for System Admins, I came accross this `Test-PendingReboot` script by Brian Wilhite. 
+During my never-ending quest for PowerShell scripts for System Admins, I came accross this `Test-PendingReboot` script by Brian Wilhite. 
 
 I'm amazed at how elegant of a solution it is to a common issue for SA's "Do I need to reboot?". Operationally, it's simple and fast. 
 
