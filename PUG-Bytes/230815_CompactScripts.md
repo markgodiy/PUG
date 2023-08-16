@@ -3,7 +3,7 @@
 
 In the world of PowerShell scripting, striking a balance between concise code and clear understanding is like finding a hidden treasure. While shorter scripts can save time, they might make it harder to read and maintain. In this article, we'll explore ways to make your PowerShell scripts shorter while keeping them easy to follow. We'll look at techniques that help you trim down your scripts without losing the ability to understand and manage them in the future.
 
-## Ways to Make Your Scripts Shorter:
+## A Few Ways to Make Your Scripts Shorter:
 
 1. **Shorter Variable Names:** Use shorter or single letter variable names to shrink your script.
 
@@ -54,7 +54,7 @@ foreach ($image in $images) {
 }
 ```
 
-## Example Script 2: Going for the Shortest:
+## Example Script 2: Going for the Shortest
 
 In this part, we'll show you a version of the same script that's been carefully cut down to the essentials. While this script is super short, it also shows how a balance must be struck between making it brief and keeping it clear.
 
@@ -68,4 +68,4 @@ ren $_.FullName $r -Force;$s++}
 
 ## Summary:
 
-Making your PowerShell scripts shorter is a craft that, when done right, can lead to smart and polished code. Just remember, finding the right balance between short and clear is what makes a script powerful. By mastering these methods, you'll be able to confidently create scripts that are shorter and still easy to understand and upgrade over time.
+Making your PowerShell scripts more concise is a craft. By being aware of these methods, you should be able to confidently create scripts that are equally functional and faster to write but still easy to understand and upgrade over time.
