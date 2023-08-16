@@ -26,7 +26,7 @@ We'll start with a script that changes image file properties. This example uses 
 $folder = "C:\Path\To\Memories"
 $newCreationTime = Get-Date "2023-08-06 17:06:00"
 $tripTitle = "FamilyTrip"
-$sequence == 1
+$sequence = 1
 $imageExtensions = @(".jpg", ".png", ".bmp", ".gif", ".jpeg")
 
 # Get the list of image files in the specified folder
