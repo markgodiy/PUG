@@ -1,4 +1,4 @@
-# User PowerShell to get a list of installed applications
+# Use PowerShell to get a list of installed applications
 
 Cmdlets Used:
 `Get-ItemProperty`
