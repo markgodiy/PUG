@@ -15,7 +15,7 @@ PowerShell is an object-based distributed automation engine, scripting language,
 
 ## 3 cmdlets beginners should know
 
-**1. Get-Command**
+**1. Get-Command**  
 **2. Get-Member**  
 **3. Get-Help**
 
