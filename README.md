@@ -107,6 +107,3 @@ Three common ways to write and execute PowerShell code:
 
    - You'll see a list of running services, just like in Example 1, but with the added filter to show only the active ones.
 
-Now, you can explore running services in a more engaging way by filtering and customizing your PowerShell commands and scripts. Happy scripting!
-
-
