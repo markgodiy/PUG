@@ -9,6 +9,8 @@ Back in Aug 8, 2002, Jeffrey Snover published the ["Monad Manifesto"](https://ww
 
 ## about_Powershell
 
+![Alt text](image.png)
+
 PowerShell is an object-based distributed automation engine, scripting language, and command line shell.
 
 *What is PowerShell?* https://learn.microsoft.com/en-us/powershell/scripting/overview?view=powershell-5.1#next-steps
@@ -71,8 +73,6 @@ Three common ways to write and execute PowerShell code:
 
    - The function will display a list of only the currently running services, making it easy to see what's active.
 
-5. :information_source:Keep in mind that custom functions are only loaded in the current PowerShell session. Once you close the terminal, the function will be discarded. You'll need to reload it if you want to use it again. 
-
 **Example 3: Saving and Running a Script**
 
 1. **Create a PowerShell Script**:
@@ -107,3 +107,8 @@ Three common ways to write and execute PowerShell code:
 
    - You'll see a list of running services, just like in Example 1, but with the added filter to show only the active ones.
 
+## Ready for more? 
+
+Microsoft used to publish a PowerShell scripting blog. It was retired a few years ago, sadly, but is still one of the best resources for practical examples of PowerShell. Check it out!  
+
+https://devblogs.microsoft.com/scripting/tag/scripting-guy/
