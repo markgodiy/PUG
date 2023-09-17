@@ -13,3 +13,10 @@ PowerShell is an object-based distributed automation engine, scripting language,
 
 *What is PowerShell?* https://learn.microsoft.com/en-us/powershell/scripting/overview?view=powershell-5.1#next-steps
 
+## Quick Start
+
+### 3 cmdlets everyone should know
+
+1. Get-Command
+2. Get-Member
+3. Get-Help
