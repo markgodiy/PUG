@@ -31,6 +31,14 @@ Get-Help Get-Member -online
 
 **:warning: Running code found on the internet can pose significant security risks, including malware, data loss, and system instability. Exercise extreme caution, verify the source, and prioritize your system's security and privacy:exclamation:**
 
+Three common ways to write and execute PowerShell code:
+
+1. Copy, paste, and execute code.
+2. Create and call a function.
+3. Create and execute a .ps1 script file.
+  
+---------------------
+
 **Example 1: Simple Copy and Paste**
 
 1. **Open PowerShell**: Click the Start button, type "PowerShell," and press Enter.
