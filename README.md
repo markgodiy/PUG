@@ -29,7 +29,7 @@ Get-Help Get-Member -online
 
 ## Quick Guide: Checking Running Services in PowerShell
 
-[!WARNING]
+:exclamation: :exclamation: :exclamation:  
 Running code found on the internet can pose significant security risks, including malware, data loss, and system instability. Exercise extreme caution, verify the source, and prioritize your system's security and privacy.**
 
 **Example 1: Simple Copy and Paste**
