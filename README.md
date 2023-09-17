@@ -49,7 +49,7 @@ Get-Help Get-Member -online
 
 1. **Open PowerShell**: Launch PowerShell if it's not already open.
 
-2. **Create a Function**: Copy and paste the following code snippet into PowerShell:
+2. **Create a Function**: Copy and paste the same code snippet from Example1 and encapsulate it as a function within a pair of curly braces. Give the function a descriptive verb-noun name, e.g., Get-RunningServices:
 
    ```powershell
    function Get-RunningServices {
@@ -57,13 +57,13 @@ Get-Help Get-Member -online
    }
    ```
 
-3. **Press Enter**: Hit Enter to create the function.
+3. **Press Enter**: Hit Enter to create the function. Nothing will happen, but that's okay. The function is loaded in session. We just need to call it to run the code.
 
-4. **Run the Function**: Now you can run your custom function anytime. Type `Get-RunningServices` and press Enter.
+4. **Run the Function**: Now you can run your custom function anytime. Type `Get-RunningServices` at the prompt and press Enter.
 
    - The function will display a list of only the currently running services, making it easy to see what's active.
 
-5. Keep in mind that custom functions are only loaded in the current PowerShell session. Once you close the terminal, the function will be discarded. You'll need to reload it if you want to use it again. 
+5. :information_source:Keep in mind that custom functions are only loaded in the current PowerShell session. Once you close the terminal, the function will be discarded. You'll need to reload it if you want to use it again. 
 
 **Example 3: Saving and Running a Script**
 
