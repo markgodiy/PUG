@@ -1,7 +1,6 @@
+# Example prompt function for use in the PowerShell profiles. 
 
-### Example prompt function for use in the PowerShell profiles. 
-
-## Start PowerShell as Admin, then run command `notepad $PROFILE.CurrentUserAllhosts` and copy the function, then save. 
+Start PowerShell as Admin, then run command `notepad $PROFILE.CurrentUserAllhosts` and copy the function, then save. 
 
 Function must be named `function prompt {}`
 
